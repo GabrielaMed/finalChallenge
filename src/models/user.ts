@@ -26,11 +26,11 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true, min: 6, selected: false },
     cep: { type: String, required: true },
     qualified: { type: String, required: true, enum: ["yes", "no"] },
-    patio: { type: String, required: false, default: "" },
-    complement: { type: String, required: false, default: "" },
-    neighborhood: { type: String, required: false, default: "" },
-    locality: { type: String, required: false, default: "" },
-    uf: { type: String, required: false, default: "" },
+    patio: { type: String, required: true, default: "" },
+    complement: { type: String, required: true, default: "" },
+    neighborhood: { type: String, required: true, default: "" },
+    locality: { type: String, required: true, default: "" },
+    uf: { type: String, required: true, default: "" },
   },
   { versionKey: false }
 );
