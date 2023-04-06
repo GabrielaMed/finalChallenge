@@ -10,7 +10,7 @@ class ValidateAgeService {
     ) {
       age--;
     }
-    return true;
+    return age >= 18 ? true : false;
   }
 }
 
