@@ -5,7 +5,7 @@ export default interface UserDTO {
   cpf: string;
   birth: Date;
   email: string;
-  password: string;
+  password?: string;
   cep: string;
   qualified: UserQualified;
   patio: string;
