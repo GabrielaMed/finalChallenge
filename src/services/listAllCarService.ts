@@ -2,6 +2,15 @@ import AppError from "../errors/appError";
 import ICarRepository from "../repositories/ICarRepository";
 import CarRepository from "../repositories/carRepository";
 
+interface Request {
+  model?: string;
+  color?: string;
+  year?: string;
+  value_per_day?: number;
+  accessories?: string;
+  number_of_passengers?: number;
+}
+
 class ListAllCarService {
   private carRepository: ICarRepository;
 
@@ -12,10 +21,20 @@ class ListAllCarService {
   public async execute(
     page: number,
     limit: number,
-    params?: object
-  ): Promise<Object> {
+    params?: Request
+  ): Promise<Object | void> {
     const skip = (page - 1) * limit;
-    const car = await this.carRepository.listAll(skip, limit, params);
+    let car;
+
+    if (params && params.accessories) {
+      const description = params.accessories;
+
+      delete params.accessories;
+
+      car = await this.carRepository.listAll(skip, limit, params, description);
+    } else {
+      car = await this.carRepository.listAll(skip, limit, params);
+    }
 
     if (!car || car.length === 0) {
       throw new AppError("Car not found", 404);
