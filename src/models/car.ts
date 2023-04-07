@@ -24,7 +24,26 @@ const CarSchema = new Schema<ICar>(
     color: { type: String, required: true },
     year: { type: String, required: true, min: 1950, max: 2023 },
     value_per_day: { type: Number, required: true },
-    accessories: { type: [accessorySchema], required: true, min: 1 },
+    accessories: {
+      type: [accessorySchema],
+      required: true,
+      min: 1,
+      validate: [
+        {
+          validator: function (accessories: ICarAccessories[]) {
+            const descriptionSet = new Set();
+            for (const accessory of accessories) {
+              if (descriptionSet.has(accessory.description)) {
+                return false;
+              }
+              descriptionSet.add(accessory.description);
+            }
+            return true;
+          },
+          message: "Duplicate accessory description found",
+        },
+      ],
+    },
     number_of_passengers: { type: Number, required: true },
   },
   { versionKey: false }
