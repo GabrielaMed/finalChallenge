@@ -5,6 +5,9 @@ import authenticate from "../middlewares/auth";
 const carRoutes = Router();
 const carController = new CarController();
 
-carRoutes.route("/").post(authenticate, carController.create);
+carRoutes
+  .route("/")
+  .post(authenticate, carController.create)
+  .get(carController.listAll);
 
 export default carRoutes;

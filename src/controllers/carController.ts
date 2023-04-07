@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { createCarValidator } from "../validators/createCarValidator";
 import CarRepository from "../repositories/carRepository";
 import CreateCarService from "../services/createCarService";
+import ListAllCarService from "../services/listAllCarService";
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -41,6 +42,25 @@ class CarController {
     });
 
     return res.status(201).json({ message: "Car created successfully!", car });
+  }
+  async listAll(req: Request, res: Response): Promise<Response> {
+    const { page = "1", limit = "10", ...params } = req.query;
+
+    const carRepository = new CarRepository();
+    const getCar = new ListAllCarService(carRepository);
+
+    const query = {
+      ...params,
+    };
+
+    let car;
+    if (params) {
+      car = await getCar.execute(Number(page), Number(limit), query);
+    } else {
+      car = await getCar.execute(Number(page), Number(limit));
+    }
+
+    return res.status(200).json(car);
   }
 }
 
