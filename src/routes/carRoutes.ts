@@ -16,4 +16,9 @@ carRoutes
   .get(carController.getById)
   .put(authenticate, carController.update);
 
+carRoutes
+  .route("/:carId/accessories/:accessoryId")
+  .put(authenticate, carController.updateAccessory)
+  .delete(authenticate, carController.deleteAccessoryById);
+
 export default carRoutes;

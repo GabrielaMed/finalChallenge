@@ -7,6 +7,8 @@ import DeleteCarService from "../services/deleteCarService";
 import GetCarByIdService from "../services/getCarByIdService";
 import UpdateCarService from "../services/updateCarService";
 import { updateCarValidator } from "../validators/updateCarValidator";
+import DeleteCarAccessoryByIdService from "../services/deleteCarAccessoryByIdService";
+import UpdateCarAccessoryService from "../services/updateCarAccessoryService";
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -94,12 +96,10 @@ class CarController {
     const { ...data } = req.body;
 
     if (data.accessories) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "To update or delete an accesory use this route: localhost:3000/api/v1/car/:carId/accessories/:accessoryId",
-        });
+      return res.status(400).json({
+        message:
+          "To update or delete an accesory use this route: localhost:3000/api/v1/car/:carId/accessories/:accessoryId",
+      });
     }
 
     const carRepository = new CarRepository();
@@ -117,6 +117,37 @@ class CarController {
     const car = await updateCar.execute({ id, ...data });
 
     return res.status(200).json({ car });
+  }
+
+  async updateAccessory(req: Request, res: Response): Promise<Response> {
+    const { carId, accessoryId } = req.params;
+    const { description } = req.body;
+
+    const carRepository = new CarRepository();
+    const updateAccessory = new UpdateCarAccessoryService(carRepository);
+
+    const car = await updateAccessory.execute(carId, accessoryId, description);
+
+    if (car?.status === "delete") {
+      return res.status(204).send();
+    } else if (car.status === "put") {
+      return res.status(200).json({ car });
+    } else {
+      return res.status(201).json({ car });
+    }
+  }
+
+  async deleteAccessoryById(req: Request, res: Response): Promise<Response> {
+    const { carId, accessoryId } = req.params;
+
+    const carRepository = new CarRepository();
+    const deleteAccessoryById = new DeleteCarAccessoryByIdService(
+      carRepository
+    );
+
+    await deleteAccessoryById.execute(carId, accessoryId);
+
+    return res.status(204).send();
   }
 }
 
