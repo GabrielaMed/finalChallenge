@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import AppError from "../errors/appError";
 import IUserRepository from "../repositories/IUserRepository";
 import UserRepository from "../repositories/userRepository";
-import validate from "uuid-validate";
 
 class DeleteUserService {
   private userRepository: IUserRepository;
