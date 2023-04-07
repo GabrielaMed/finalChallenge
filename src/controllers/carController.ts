@@ -4,6 +4,9 @@ import CarRepository from "../repositories/carRepository";
 import CreateCarService from "../services/createCarService";
 import ListAllCarService from "../services/listAllCarService";
 import DeleteCarService from "../services/deleteCarService";
+import GetCarByIdService from "../services/getCarByIdService";
+import UpdateCarService from "../services/updateCarService";
+import { updateCarValidator } from "../validators/updateCarValidator";
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -73,6 +76,47 @@ class CarController {
     await deleteCar.execute(id);
 
     return res.status(204).send();
+  }
+
+  async getById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const carRepository = new CarRepository();
+    const getCarById = new GetCarByIdService(carRepository);
+
+    const car = await getCarById.execute(id);
+
+    return res.status(200).json({ car });
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { ...data } = req.body;
+
+    if (data.accessories) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "To update or delete an accesory use this route: localhost:3000/api/v1/car/:carId/accessories/:accessoryId",
+        });
+    }
+
+    const carRepository = new CarRepository();
+    const updateCar = new UpdateCarService(carRepository);
+
+    const validationResult = updateCarValidator.safeParse({
+      ...data,
+    });
+
+    if (!validationResult.success) {
+      const errorFormatted = validationResult.error.format();
+      return res.status(400).json(errorFormatted);
+    }
+
+    const car = await updateCar.execute({ id, ...data });
+
+    return res.status(200).json({ car });
   }
 }
 
