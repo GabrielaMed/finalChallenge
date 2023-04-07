@@ -17,7 +17,7 @@ class ListAllCarService {
     const skip = (page - 1) * limit;
     const car = await this.carRepository.listAll(skip, limit, params);
 
-    if (!car) {
+    if (!car || car.length === 0) {
       throw new AppError("Car not found", 404);
     }
 

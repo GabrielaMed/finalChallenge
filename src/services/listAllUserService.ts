@@ -17,7 +17,7 @@ class ListAllUserService {
     const skip = (page - 1) * limit;
     const user = await this.userRepository.listAll(skip, limit, params);
 
-    if (!user) {
+    if (!user || user.length === 0) {
       throw new AppError("User not found", 404);
     }
 
