@@ -3,6 +3,7 @@ import { createCarValidator } from "../validators/createCarValidator";
 import CarRepository from "../repositories/carRepository";
 import CreateCarService from "../services/createCarService";
 import ListAllCarService from "../services/listAllCarService";
+import DeleteCarService from "../services/deleteCarService";
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -61,6 +62,17 @@ class CarController {
     }
 
     return res.status(200).json(car);
+  }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const carRepository = new CarRepository();
+    const deleteCar = new DeleteCarService(carRepository);
+
+    await deleteCar.execute(id);
+
+    return res.status(204).send();
   }
 }
 

@@ -10,4 +10,6 @@ carRoutes
   .post(authenticate, carController.create)
   .get(carController.listAll);
 
+carRoutes.route("/:id").delete(authenticate, carController.delete);
+
 export default carRoutes;
