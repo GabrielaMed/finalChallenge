@@ -8,4 +8,5 @@ export default interface IUserRepository {
   countDocuments(query?: object): Promise<number>;
   create(createUserDTO: UserDTO): Promise<UserDTO>;
   delete(id: string): Promise<void | null>;
+  update(id: string, params: object): Promise<UserDTO | null>;
 }

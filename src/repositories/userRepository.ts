@@ -71,6 +71,14 @@ class UserRepository implements IUserRepository {
   public async delete(id: string): Promise<void | null> {
     return await UserModel.findByIdAndDelete(id);
   }
+
+  public async update(id: string, params: object): Promise<UserDTO | null> {
+    return await UserModel.findByIdAndUpdate(
+      id,
+      { ...params },
+      { new: true, runValidators: true }
+    );
+  }
 }
 
 export default UserRepository;
