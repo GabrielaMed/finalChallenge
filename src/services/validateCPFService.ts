@@ -7,7 +7,7 @@ class ValidateCPFService {
 
     const isAllSame = [...cpf].every((digit) => digit === cpf[0]);
     if (isAllSame) {
-      return { valid: false, cpf };
+      return false;
     }
 
     for (let i = 1; i <= 9; i++) {
@@ -31,7 +31,7 @@ class ValidateCPFService {
     }
     if (rest != parseInt(cpf.substring(10, 11))) return { valid: false, cpf };
 
-    return { valid: true, cpf };
+    return true;
   }
 }
 

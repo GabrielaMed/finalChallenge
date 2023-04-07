@@ -26,6 +26,7 @@ class CreateUserService {
 
   public async execute(data: Request): Promise<UserDTO> {
     const { name, cpf, birth, email, password, cep, qualified } = data;
+    let userExists;
 
     const getCEPComplements = new GetCEPComplementsService();
     const validateCPF = new ValidateCPFService();
@@ -35,7 +36,7 @@ class CreateUserService {
 
     const cpfValid = validateCPF.handle(cpf);
 
-    if (!cpfValid.valid) {
+    if (!cpfValid) {
       throw new AppError("CPF is not valid!", 400);
     }
 
@@ -45,7 +46,7 @@ class CreateUserService {
       throw new AppError("You need to be at least 18 years old!", 400);
     }
 
-    let userExists = await this.userRepository.findByCPF(cpfValid.cpf);
+    userExists = await this.userRepository.findByCPF(cpf);
 
     if (userExists) {
       throw new AppError("User with this CPF already exists!", 400);
