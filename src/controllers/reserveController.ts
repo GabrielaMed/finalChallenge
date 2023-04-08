@@ -5,6 +5,8 @@ import CreateReserveService from "../services/createReserveService";
 import CarRepository from "../repositories/carRepository";
 import UserRepository from "../repositories/userRepository";
 import ListAllReserveService from "../services/listAllReserveService";
+import GetReserveByIdService from "../services/GetReserveByIdService";
+import DeleteReserveService from "../services/deleteReserveService";
 
 class ReserveController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -61,6 +63,28 @@ class ReserveController {
     }
 
     return res.status(200).json(reserve);
+  }
+
+  async getById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const reserveRepository = new ReserveRepository();
+    const getReserveById = new GetReserveByIdService(reserveRepository);
+
+    const reserve = await getReserveById.execute(id);
+
+    return res.status(200).json({ reserve });
+  }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const reserveRepository = new ReserveRepository();
+    const deleteReserve = new DeleteReserveService(reserveRepository);
+
+    await deleteReserve.execute(id);
+
+    return res.status(204).send();
   }
 }
 

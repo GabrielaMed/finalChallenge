@@ -20,7 +20,7 @@ class ReserveRepository implements IReserveRepository {
   }
 
   async findById(id: string): Promise<ReserveDTO | null> {
-    throw new Error("Method not implemented.");
+    return await ReserveModel.findById(id);
   }
 
   async listAll(
@@ -57,7 +57,7 @@ class ReserveRepository implements IReserveRepository {
   }
 
   async delete(id: string): Promise<void | null> {
-    throw new Error("Method not implemented.");
+    return await ReserveModel.findByIdAndDelete(id);
   }
 
   async update(id: string, params: object): Promise<ReserveDTO | null> {
