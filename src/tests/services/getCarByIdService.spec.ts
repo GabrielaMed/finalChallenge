@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import ICarRepository from "../../repositories/ICarRepository";
 import CreateCarService from "../../services/createCarService";
-import DeleteCarService from "../../services/deleteCarService";
 import CarRepository from "../../repositories/carRepository";
 import { ICarAccessories } from "../../interfaces/ICarAccessories";
 import AppError from "../../errors/appError";
