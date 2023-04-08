@@ -47,9 +47,6 @@ class UpdateUserService {
       throw new AppError("User not found!", 404);
     }
 
-    if (cep) {
-      addressInfo = await getCEPComplements.handle(cep);
-    }
     if (cpf) {
       cpfValid = validateCPF.handle(cpf);
 
@@ -79,7 +76,9 @@ class UpdateUserService {
       }
     }
 
-    if (addressInfo) {
+    if (cep) {
+      addressInfo = await getCEPComplements.handle(cep);
+
       user = await this.userRepository.update(id, {
         ...data,
         cep: addressInfo.cep,
