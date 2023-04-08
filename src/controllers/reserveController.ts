@@ -7,6 +7,8 @@ import UserRepository from "../repositories/userRepository";
 import ListAllReserveService from "../services/listAllReserveService";
 import GetReserveByIdService from "../services/GetReserveByIdService";
 import DeleteReserveService from "../services/deleteReserveService";
+import UpdateReserveService from "../services/updateReserveService";
+import { updateReserveValidator } from "../validators/updateReserveValidator";
 
 class ReserveController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -85,6 +87,37 @@ class ReserveController {
     await deleteReserve.execute(id);
 
     return res.status(204).send();
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { ...data } = req.body;
+
+    const reserveRepository = new ReserveRepository();
+    const carRepository = new CarRepository();
+    const userRepository = new UserRepository();
+    const updateReserve = new UpdateReserveService(
+      reserveRepository,
+      carRepository,
+      userRepository
+    );
+
+    const validationResult = updateReserveValidator.safeParse({
+      ...data,
+    });
+
+    if (!validationResult.success) {
+      const errorFormatted = validationResult.error.format();
+      return res.status(400).json(errorFormatted);
+    }
+
+    const reserve = await updateReserve.execute({ id, ...data });
+
+    if (!reserve) {
+      return res.status(400).json({ message: "Something went wrong!" });
+    }
+
+    return res.status(200).json({ reserve });
   }
 }
 

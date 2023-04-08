@@ -8,7 +8,11 @@ class ReserveRepository implements IReserveRepository {
     start_date: Date,
     end_date: Date
   ): Promise<ReserveDTO | null> {
-    return await ReserveModel.findOne({ user_id, start_date, end_date });
+    return await ReserveModel.findOne({
+      user_id,
+      start_date: { $lte: end_date },
+      end_date: { $gte: start_date },
+    });
   }
 
   async findByCarIdAndDates(
@@ -16,7 +20,11 @@ class ReserveRepository implements IReserveRepository {
     start_date: Date,
     end_date: Date
   ): Promise<ReserveDTO | null> {
-    return await ReserveModel.findOne({ car_id, start_date, end_date });
+    return await ReserveModel.findOne({
+      car_id,
+      start_date: { $lte: end_date },
+      end_date: { $gte: start_date },
+    });
   }
 
   async findById(id: string): Promise<ReserveDTO | null> {
@@ -61,7 +69,11 @@ class ReserveRepository implements IReserveRepository {
   }
 
   async update(id: string, params: object): Promise<ReserveDTO | null> {
-    throw new Error("Method not implemented.");
+    return await ReserveModel.findByIdAndUpdate(
+      id,
+      { ...params },
+      { new: true, runValidators: true }
+    );
   }
 }
 

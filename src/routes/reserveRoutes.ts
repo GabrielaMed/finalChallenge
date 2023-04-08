@@ -14,6 +14,7 @@ reserveRoutes
 reserveRoutes
   .route("/:id")
   .get(authenticate, reserveController.getById)
-  .delete(authenticate, reserveController.delete);
+  .delete(authenticate, reserveController.delete)
+  .put(authenticate, reserveController.update);
 
 export default reserveRoutes;
