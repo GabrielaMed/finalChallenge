@@ -1,6 +1,7 @@
 import { UserQualified } from "../enums/userQualified";
 
 export default interface UserDTO {
+  [x: string]: any;
   name: string;
   cpf: string;
   birth: Date;

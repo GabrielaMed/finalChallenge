@@ -16,7 +16,7 @@ interface Request {
   email?: string;
   password?: string;
   cep?: string;
-  qualified?: UserQualified;
+  qualified?: string;
 }
 
 class UpdateUserService {
