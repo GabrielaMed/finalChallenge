@@ -37,6 +37,19 @@ describe("List all users", () => {
     expect(users.length).toBeGreaterThan(0);
   });
 
+  it("should be able to list all users using any other param", async () => {
+    const limit = 2;
+    const page = 1;
+    const params = {
+      cpf: "123.456.789-01",
+      email: "test@test.com",
+    };
+
+    let cars = [await listAllUserService.execute(page, limit, params)];
+
+    expect(cars.length).toBeGreaterThan(0);
+  });
+
   it("should not be able to return something if user is not found", async () => {
     const limit = 2;
     const page = 1;
