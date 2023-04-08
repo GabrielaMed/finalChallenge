@@ -6,6 +6,9 @@ import ReserveController from "../controllers/reserveController";
 const reserveRoutes = Router();
 const reserveController = new ReserveController();
 
-reserveRoutes.route("/").post(authenticate, reserveController.create);
+reserveRoutes
+  .route("/")
+  .post(authenticate, reserveController.create)
+  .get(authenticate, reserveController.listAll);
 
 export default reserveRoutes;

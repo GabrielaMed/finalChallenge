@@ -38,8 +38,8 @@ class ReserveRepository implements IReserveRepository {
     return reserve;
   }
 
-  async countDocuments(query?: object | undefined): Promise<number> {
-    throw new Error("Method not implemented.");
+  async countDocuments(query?: object): Promise<number> {
+    return await ReserveModel.countDocuments(query);
   }
 
   async create(data: ReserveDTO): Promise<ReserveDTO> {

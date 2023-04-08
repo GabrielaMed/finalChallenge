@@ -4,6 +4,7 @@ import ReserveRepository from "../repositories/reserveRepository";
 import CreateReserveService from "../services/createReserveService";
 import CarRepository from "../repositories/carRepository";
 import UserRepository from "../repositories/userRepository";
+import ListAllReserveService from "../services/listAllReserveService";
 
 class ReserveController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -40,6 +41,26 @@ class ReserveController {
     return res
       .status(201)
       .json({ message: "User created successfully!", reserve });
+  }
+
+  async listAll(req: Request, res: Response): Promise<Response> {
+    const { page = "1", limit = "10", ...params } = req.query;
+
+    const reserveRepository = new ReserveRepository();
+    const getReserve = new ListAllReserveService(reserveRepository);
+
+    const query = {
+      ...params,
+    };
+
+    let reserve;
+    if (params) {
+      reserve = await getReserve.execute(Number(page), Number(limit), query);
+    } else {
+      reserve = await getReserve.execute(Number(page), Number(limit));
+    }
+
+    return res.status(200).json(reserve);
   }
 }
 
