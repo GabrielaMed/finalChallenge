@@ -35,27 +35,17 @@ class UpdateReserveService {
     const { car_id, start_date, end_date, user_id, id } = data;
     let car;
 
+    let reserve = await this.reserveRepository.findById(id);
+
+    if (!reserve) {
+      throw new AppError("Reserve not found!", 404);
+    }
+
     if (car_id) {
       car = await this.carRepository.findById(String(car_id));
 
       if (!car) {
         throw new AppError("Car not found", 404);
-      }
-
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      const carReservedNextDay =
-        await this.reserveRepository.findByCarIdAndDates(
-          String(car_id),
-          tomorrow,
-          tomorrow
-        );
-      if (carReservedNextDay) {
-        throw new AppError(
-          "Cannot update reservation because the car has a reservation for the next day",
-          400
-        );
       }
     }
 
@@ -100,12 +90,6 @@ class UpdateReserveService {
           400
         );
       }
-    }
-
-    let reserve = await this.reserveRepository.findById(id);
-
-    if (!reserve) {
-      throw new AppError("Reserve not found!", 404);
     }
 
     car = await this.carRepository.findById(String(reserve.car_id));
