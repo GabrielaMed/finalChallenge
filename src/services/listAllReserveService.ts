@@ -14,6 +14,8 @@ class ListAllReserveService {
     limit: number,
     params?: object
   ): Promise<Object> {
+    page = page || 1;
+    limit = limit || 10;
     const skip = (page - 1) * limit;
     const reserve = await this.reserveRepository.listAll(skip, limit, params);
 

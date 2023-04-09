@@ -57,4 +57,12 @@ describe("List all cars", () => {
       listAllCarService.execute(page, limit, { model })
     ).rejects.toEqual(new AppError("Car not found", 404));
   });
+
+  it("should be able to list cars sending limit and page equal to 0", async () => {
+    const limit = 0;
+    const page = 0;
+    const cars = [await listAllCarService.execute(page, limit)];
+
+    expect(cars.length).toBeGreaterThan(0);
+  });
 });

@@ -14,6 +14,8 @@ class ListAllUserService {
     limit: number,
     params?: object
   ): Promise<Object> {
+    page = page || 1;
+    limit = limit || 10;
     const skip = (page - 1) * limit;
     const user = await this.userRepository.listAll(skip, limit, params);
 

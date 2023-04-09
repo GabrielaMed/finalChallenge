@@ -32,7 +32,7 @@ describe("List all users", () => {
   it("should be able to list all users", async () => {
     const limit = 2;
     const page = 1;
-    const users = [await listAllUserService.execute(page, limit)];
+    const users = Object.keys(await listAllUserService.execute(page, limit));
 
     expect(users.length).toBeGreaterThan(0);
   });
@@ -45,7 +45,9 @@ describe("List all users", () => {
       email: "test@test.com",
     };
 
-    let cars = [await listAllUserService.execute(page, limit, params)];
+    let cars = Object.keys(
+      await listAllUserService.execute(page, limit, params)
+    );
 
     expect(cars.length).toBeGreaterThan(0);
   });
@@ -58,5 +60,13 @@ describe("List all users", () => {
     await expect(
       listAllUserService.execute(page, limit, { name })
     ).rejects.toEqual(new AppError("User not found", 404));
+  });
+
+  it("should be able to list users sending limit and page equal to 0", async () => {
+    const limit = 0;
+    const page = 0;
+    const users = Object.keys(await listAllUserService.execute(page, limit));
+
+    expect(users.length).toBeGreaterThan(0);
   });
 });
