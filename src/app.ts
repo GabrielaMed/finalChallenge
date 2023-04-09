@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import "./config/env";
+import "dotenv/config";
 import { databaseConnect } from "./config/database";
 import AppError from "./errors/appError";
 import "express-async-errors";
