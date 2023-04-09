@@ -5,7 +5,7 @@ import CreateReserveService from "../services/createReserveService";
 import CarRepository from "../repositories/carRepository";
 import UserRepository from "../repositories/userRepository";
 import ListAllReserveService from "../services/listAllReserveService";
-import GetReserveByIdService from "../services/GetReserveByIdService";
+import GetReserveByIdService from "../services/getReserveByIdService";
 import DeleteReserveService from "../services/deleteReserveService";
 import UpdateReserveService from "../services/updateReserveService";
 import { updateReserveValidator } from "../validators/updateReserveValidator";
@@ -48,7 +48,7 @@ class ReserveController {
   }
 
   async listAll(req: Request, res: Response): Promise<Response> {
-    const { page = "1", limit = "10", ...params } = req.query;
+    const { page, limit, ...params } = req.query;
 
     const reserveRepository = new ReserveRepository();
     const getReserve = new ListAllReserveService(reserveRepository);

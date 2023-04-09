@@ -23,6 +23,8 @@ class ListAllCarService {
     limit: number,
     params?: Request
   ): Promise<Object | void> {
+    page = page || 1;
+    limit = limit || 10;
     const skip = (page - 1) * limit;
     let car;
 

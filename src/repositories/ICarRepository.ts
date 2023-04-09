@@ -12,7 +12,7 @@ export default interface ICarRepository {
     limit: number,
     params?: object,
     description?: string
-  ): Promise<CarDTO[] | void>;
+  ): Promise<CarDTO[]>;
   countDocuments(query?: object): Promise<number>;
   create(createCarDTO: CarDTO): Promise<CarDTO>;
   delete(id: string): Promise<void | null>;

@@ -9,7 +9,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   cep: string;
-  qualified: UserQualified;
+  qualified: string;
   patio: string;
   complement: string;
   neighborhood: string;

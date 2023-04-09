@@ -33,9 +33,6 @@ const CarSchema = new Schema<ICar>(
           validator: function (accessories: ICarAccessories[]) {
             const descriptionSet = new Set();
             for (const accessory of accessories) {
-              if (descriptionSet.has(accessory.description)) {
-                return false;
-              }
               descriptionSet.add(accessory.description);
             }
             return true;

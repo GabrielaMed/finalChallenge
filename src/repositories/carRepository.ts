@@ -63,7 +63,7 @@ class CarRepository implements ICarRepository {
     limit: number,
     params?: object,
     description?: string
-  ): Promise<CarDTO[] | void> {
+  ): Promise<CarDTO[]> {
     let car;
 
     if (params && description) {
@@ -75,17 +75,14 @@ class CarRepository implements ICarRepository {
         .limit(limit);
     } else if (params && !description) {
       car = await CarModel.find(params).skip(skip).limit(limit);
-    } else if (!params && description) {
+    } else if (!params && description !== undefined) {
       car = await CarModel.find({
         accessories: { $elemMatch: { description: description } },
       })
         .skip(skip)
         .limit(limit);
     } else {
-      car = await CarModel.find()
-        .skip(skip)
-        .limit(limit)
-        .catch((err) => console.log(err));
+      car = await CarModel.find().skip(skip).limit(limit);
     }
 
     return car;

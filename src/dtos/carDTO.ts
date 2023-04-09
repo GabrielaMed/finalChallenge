@@ -1,6 +1,7 @@
 import { ICarAccessories } from "../interfaces/ICarAccessories";
 
 export default interface CarDTO {
+  [x: string]: any;
   model: string;
   color: string;
   year: string;

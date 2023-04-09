@@ -19,7 +19,7 @@ class GetCarByIdService {
     const car = await this.carRepository.findById(id);
 
     if (!car) {
-      throw new AppError("User not found!", 404);
+      throw new AppError("Car not found!", 404);
     }
 
     return car;

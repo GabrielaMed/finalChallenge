@@ -68,7 +68,7 @@ class UserController {
   }
 
   async listAll(req: Request, res: Response): Promise<Response> {
-    const { page = "1", limit = "10", ...params } = req.query;
+    const { page, limit, ...params } = req.query;
 
     const userRepository = new UserRepository();
     const getUser = new ListAllUserService(userRepository);
