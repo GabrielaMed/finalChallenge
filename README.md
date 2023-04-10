@@ -21,6 +21,11 @@
 - [Project Description](#project-description)
 - [Prerequisite](#Prerequisite)
 - [How to run the application](#How-to-run-the-application)
+  - [Cloning the repository](#cloning-the-repository)
+  - [Install dependencies](#install-dependencies)
+  - [Build project](#build-project)
+  - [Start the application](#start-the-application)
+  - [Start on dev mode](#start-on-dev-mode)
 - [API Documentation](#api-documentation)
   - [Full route](#full-route)
   - [User](#user)
@@ -43,6 +48,8 @@
     - [List all reserves](#list-all-reserves)
     - [Update reserve](#update-reserve)
     - [Delete reserve](#delete-reserve)
+  - [Testing with Jest](#testing-with-jest)
+  - [Run Tests](#run-tests)
 - [License](#License)
 
 # Project Description
@@ -83,11 +90,15 @@ MongoDB: https://www.mongodb.com/cloud/atlas/register
 
 # How to run the application
 
+## Cloning the repository
+
 On your terminal, CMD or Powershell, clone the project:
 
 ```
 git clone https://github.com/GabrielaMed/finalChallenge.git
 ```
+
+## Install dependencies
 
 After the project is cloned, still on the terminal, get inside the project folder and run:
 
@@ -95,7 +106,7 @@ After the project is cloned, still on the terminal, get inside the project folde
 npm i
 ```
 
-to install all dependencies.
+## Build project
 
 Now You can open the project using VS Code, if you press CTRL + " it will open an integrated terminal. In there you can type:
 
@@ -103,19 +114,15 @@ Now You can open the project using VS Code, if you press CTRL + " it will open a
 npm run build
 ```
 
-to start the process o building the application. After that, to start the application you can run:
+## Start the application
+
+After that, to start the application you can run:
 
 ```
 npm start
 ```
 
-If you want to test:
-
-```
-npm run test
-```
-
-If you want to run on dev mode:
+## Start on dev mode
 
 ```
 npm run dev
@@ -471,6 +478,19 @@ Authentication is required.
 ```http
 DELETE /reserve/:id
 ```
+
+# Testing with Jest
+
+## Run Tests
+
+```
+npm run test
+```
+
+## Test Coverage
+
+We use Jest's built-in coverage reporting to ensure we have sufficient test coverage.
+After running the test it will generate a coverage report in the coverage directory. Currently, our test coverage is at 98.56%.
 
 # License
 
