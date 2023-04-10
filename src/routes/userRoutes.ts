@@ -13,6 +13,6 @@ userRoutes
   .route("/:id")
   .delete(authenticate, userController.delete)
   .get(authenticate, userController.getById)
-  .put(authenticate, userController.update);
+  .patch(authenticate, userController.update);
 
 export default userRoutes;

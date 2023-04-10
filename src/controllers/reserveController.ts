@@ -44,7 +44,7 @@ class ReserveController {
 
     return res
       .status(201)
-      .json({ message: "User created successfully!", reserve });
+      .json({ message: "Reserve created successfully!", reserve });
   }
 
   async listAll(req: Request, res: Response): Promise<Response> {

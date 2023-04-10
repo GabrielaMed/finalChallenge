@@ -13,7 +13,7 @@ carRoutes
 carRoutes
   .route("/:id")
   .delete(authenticate, carController.delete)
-  .get(carController.getById)
+  .get(authenticate, carController.getById)
   .patch(authenticate, carController.update);
 
 carRoutes

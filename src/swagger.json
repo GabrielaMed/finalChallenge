@@ -1,0 +1,1034 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "LOCAR",
+        "description": "Locar is an application for a dealership that specializes in leasing vehicles. Our backend is responsible for registering cars, users, making reservations and providing authentication for the system.",
+        "termsOfService": "",
+        "contact": {
+            "name": "Gabriela S. Medeiros",
+            "url": "https://www.linkedin.com/in/gabrielamed",
+            "email": "gabriela.medeiros.pg@compasso.com.br"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api/v1/",
+            "description": "URL to test locally"
+        },
+        {
+            "url": "http://44.203.14.175:3000",
+            "description": "PROD URL"
+        }
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "summary": "Create a new user.",
+                "description": "This route is responsible for creating a new user.",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "name": "Teste",
+                                        "cpf": "123.456.789-01",
+                                        "birth": "2000-09-09",
+                                        "email": "teste@gmail.com",
+                                        "password": "123456",
+                                        "cep": "77001-910",
+                                        "qualified": "yes"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Describe if some field is missing, if something is not valid or if the type is not correct."
+                    },
+                    "201": {
+                        "description": "Returns the user info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all users.",
+                "description": "This route list all users and if a param is passed a search will be made.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User name",
+                        "required": false
+                    },
+                    {
+                        "name": "cpf",
+                        "in": "query",
+                        "description": "User cpf",
+                        "required": false
+                    },
+                    {
+                        "name": "birth",
+                        "in": "query",
+                        "description": "User birth",
+                        "required": false
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User email",
+                        "required": false
+                    },
+                    {
+                        "name": "cep",
+                        "in": "query",
+                        "description": "User cep",
+                        "required": false
+                    },
+                    {
+                        "name": "qualified",
+                        "in": "query",
+                        "description": "User qualified",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Current page",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit users per page",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "User not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    },
+                    "200": {
+                        "description": "Returns the user found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "summary": "Get user by id",
+                "description": "This route is responsible for getting an user by id.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brings the user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "User not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update user",
+                "description": "This route is responsible for updating an user.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "email": "teste@teste.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brings the user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Describe if something is not valid or if the type is not correct."
+                    },
+                    "404": {
+                        "description": "User not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user.",
+                "description": "This route is responsible for deleting an user.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted!"
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "User not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            }
+        },
+        "/authenticate": {
+            "post": {
+                "summary": "Authenticate user.",
+                "description": "This route is responsible for authenticating user.",
+                "tags": [
+                    "Authentication"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Authentication"
+                            },
+                            "examples": {
+                                "authentication": {
+                                    "value": {
+                                        "email": "teste@gmail.com",
+                                        "password": "123456"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Describe if some field is missing, if something is not valid or if the type is not correct."
+                    },
+                    "200": {
+                        "description": "Returns the token info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Authentication"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email or password is not correct!"
+                    }
+                }
+            }
+        },
+        "/car": {
+            "post": {
+                "summary": "Create a new car.",
+                "description": "This route is responsible for creating a new car.",
+                "tags": [
+                    "Car"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Car"
+                            },
+                            "examples": {
+                                "car": {
+                                    "value": {
+                                        "model": "car model",
+                                        "color": "blue",
+                                        "year": "2000",
+                                        "value_per_day": 30,
+                                        "accessories": [
+                                            {
+                                                "description": "something "
+                                            },
+                                            {
+                                                "description": "something else"
+                                            }
+                                        ],
+                                        "number_of_passengers": 7
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Describe if some field is missing, if something is not valid or if the type is not correct."
+                    },
+                    "201": {
+                        "description": "Returns the car info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Car"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all cars.",
+                "description": "This route list all cars and if a param is passed a search will be made.",
+                "tags": [
+                    "Car"
+                ],
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "description": "Car model",
+                        "required": false
+                    },
+                    {
+                        "name": "color",
+                        "in": "query",
+                        "description": "Car color",
+                        "required": false
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Car year",
+                        "required": false
+                    },
+                    {
+                        "name": "value_per_day",
+                        "in": "query",
+                        "description": "Car value per day",
+                        "required": false
+                    },
+                    {
+                        "name": "Accessories",
+                        "in": "query",
+                        "description": "Car accessory",
+                        "required": false
+                    },
+                    {
+                        "name": "number_of_passengers",
+                        "in": "query",
+                        "description": "Car number of passengers",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Current page",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit cars per page",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Car not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    },
+                    "200": {
+                        "description": "Returns the car found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Car"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car/{id}": {
+            "get": {
+                "summary": "Get car by id",
+                "description": "This route is responsible for getting a car by id.",
+                "tags": [
+                    "Car"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brings the car",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Car"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "Car not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update car",
+                "description": "This route is responsible for updating a car.",
+                "tags": [
+                    "Car"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Car"
+                            },
+                            "examples": {
+                                "car": {
+                                    "value": {
+                                        "model": "car model 2"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brings the car",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Car"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Describe if something is not valid or if the type is not correct."
+                    },
+                    "404": {
+                        "description": "Car not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete car.",
+                "description": "This route is responsible for deleting a car.",
+                "tags": [
+                    "Car"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Car deleted!"
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "Car not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            }
+        },
+        "/car/{carId}/accessories/{accessoryId}": {
+            "patch": {
+                "summary": "Update car accessory",
+                "description": "This route is responsible for updating a car accessory. if you want to update the accessory insert a different description, if the description is the same, it will delete it and if the accessoryId is not found, it will create a new accessory.",
+                "tags": [
+                    "CarAccessory"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "carId",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true
+                    },
+                    {
+                        "name": "accessoryId",
+                        "in": "path",
+                        "description": "Accessory id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CarAccessory"
+                            },
+                            "examples": {
+                                "CarAccessory": {
+                                    "value": {
+                                        "description": "something different"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brings the car accessory",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/CarAccessory"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Delete accessory"
+                    },
+                    "201": {
+                        "description": "Accessory created!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/CarAccessory"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            }
+        },
+        "/reserve": {
+            "post": {
+                "summary": "Create a new reserve.",
+                "description": "This route is responsible for creating a new reserve.",
+                "tags": [
+                    "Reserve"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reserve"
+                            },
+                            "examples": {
+                                "reserve": {
+                                    "value": {
+                                        "car_id": "",
+                                        "user_id": "",
+                                        "start_date": "2023-01-01",
+                                        "end_date": "2023-01-30"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Describe if some field is missing, if something is not valid or if the type is not correct."
+                    },
+                    "404": {
+                        "description": "Car or user not found!"
+                    },
+                    "201": {
+                        "description": "Returns the user info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Reserve"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all reserves.",
+                "description": "This route list all reserves and if a param is passed a search will be made.",
+                "tags": [
+                    "Reserve"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "description": "Car id",
+                        "required": false
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "User is",
+                        "required": false
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Reserve start date",
+                        "required": false
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Reserve end date",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Current page",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit reserves per page",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Reserve not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    },
+                    "200": {
+                        "description": "Returns the reserve found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Reserve"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reserve/{id}": {
+            "get": {
+                "summary": "Get reserve by id",
+                "description": "This route is responsible for getting a reserve by id.",
+                "tags": [
+                    "Reserve"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reserve id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brings the reserve",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Reserve"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "Reserve not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update reserve",
+                "description": "This route is responsible for updating a reserve.",
+                "tags": [
+                    "Reserve"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reserve id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reserve"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "car_id": "",
+                                        "start_date": "2023-01-01",
+                                        "end_date": "2023-02-10"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brings the reserve",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Reserve"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Describe if something is not valid or if the type is not correct."
+                    },
+                    "404": {
+                        "description": "Reserve | Car | User not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete reserve.",
+                "description": "This route is responsible for deleting a reserve.",
+                "tags": [
+                    "Reserve"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reserve id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reserve deleted!"
+                    },
+                    "400": {
+                        "description": "Id is different from default!"
+                    },
+                    "404": {
+                        "description": "Reserve not found!"
+                    },
+                    "401": {
+                        "description": "JWT token is missing!"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "birth": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "cep": {
+                        "type": "string"
+                    },
+                    "qualified": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Authentication": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Car": {
+                "type": "object",
+                "properties": {
+                    "model": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "year": {
+                        "type": "string"
+                    },
+                    "value_per_day": {
+                        "type": "number"
+                    },
+                    "accessories": {
+                        "type": "array"
+                    },
+                    "number_of_passengers": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Reserve": {
+                "type": "object",
+                "properties": {
+                    "car_id": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "type": "string"
+                    },
+                    "end_date": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CarAccessory": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
