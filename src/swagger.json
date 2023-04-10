@@ -17,7 +17,7 @@
             "description": "URL to test locally"
         },
         {
-            "url": "http://44.203.14.175:3000",
+            "url": "http://3.87.184.140:3000/api/v1/",
             "description": "PROD URL"
         }
     ],
