@@ -14,11 +14,11 @@ carRoutes
   .route("/:id")
   .delete(authenticate, carController.delete)
   .get(carController.getById)
-  .put(authenticate, carController.update);
+  .patch(authenticate, carController.update);
 
 carRoutes
   .route("/:carId/accessories/:accessoryId")
-  .put(authenticate, carController.updateAccessory)
+  .patch(authenticate, carController.updateAccessory)
   .delete(authenticate, carController.deleteAccessoryById);
 
 export default carRoutes;
