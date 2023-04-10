@@ -5,12 +5,13 @@ import { databaseConnect } from "./config/database";
 import AppError from "./errors/appError";
 import "express-async-errors";
 import routes from "./routes";
-
+import cors from "cors";
 export const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(routes);
+app.use(cors());
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
