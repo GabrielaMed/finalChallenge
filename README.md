@@ -50,6 +50,7 @@
     - [Delete reserve](#delete-reserve)
   - [Testing with Jest](#testing-with-jest)
   - [Run Tests](#run-tests)
+  - [Test Coverage](#test-coverage)
 - [License](#License)
 
 # Project Description
