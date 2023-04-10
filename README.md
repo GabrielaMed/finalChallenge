@@ -51,6 +51,7 @@
   - [Testing with Jest](#testing-with-jest)
   - [Run Tests](#run-tests)
   - [Test Coverage](#test-coverage)
+- [Deploy URL](#deploy-url)
 - [License](#License)
 
 # Project Description
@@ -492,6 +493,10 @@ npm run test
 
 We use Jest's built-in coverage reporting to ensure we have sufficient test coverage.
 After running the test it will generate a coverage report in the coverage directory. Currently, our test coverage is at 98.56%.
+
+# Deploy URL
+
+http://3.87.184.140:3000/api/v1/
 
 # License
 
